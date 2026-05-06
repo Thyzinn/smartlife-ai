@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SmartLife AI</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0b1220;
+    color: white;
+}
+
+/* LOGIN */
+.login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.box {
+    background: #111a2e;
+    padding: 25px;
+    border-radius: 12px;
+    width: 320px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 6px 0;
+    border-radius: 8px;
+    border: none;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background: #38bdf8;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* APP */
+.app {
+    display: none;
+}
+
+header {
+    text-align: center;
+    padding: 40px;
+    background: linear-gradient(135deg, #0a74da, #00c6ff);
+}
+
+section {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+}
+
+.card {
+    background: #111a2e;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+table {
+    width: 100%;
+    margin-top: 10px;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #334155;
+    padding: 8px;
+    text-align: center;
+}
+
+.ai {
+    color: #22c55e;
+    margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div class="login" id="loginPage">
+    <div class="box">
+        <h2>Cadastro SmartLife</h2>
+
+        <input id="email" placeholder="E-mail">
+        <input id="senha" type="password" placeholder="Senha">
+
+        <button onclick="entrar()">Entrar</button>
+    </div>
+</div>
+
+<!-- APP -->
+<div class="app" id="app">
+
+<header>
+    <h1>SmartLife AI</h1>
+    <p>Sua inteligência de estudos e organização</p>
+</header>
+
+<section>
+
+<!-- AGENDA -->
+<div class="card">
+    <h2>📅 Agenda</h2>
+
+    <input id="tarefa" placeholder="Tarefa">
+    <input id="dia" placeholder="Dia">
+    <input id="hora" placeholder="Hora">
+
+    <button onclick="add()">Adicionar</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Tarefa</th>
+                <th>Dia</th>
+                <th>Hora</th>
+            </tr>
+        </thead>
+        <tbody id="agenda"></tbody>
+    </table>
+</div>
+
+<!-- IA -->
+<div class="card">
+    <h2>🧠 IA de Estudos Inteligente</h2>
+
+    <input id="obj" placeholder="O que você quer aprender? (ex: programação, medicina, inglês)">
+
+    <button onclick="gerar()">Gerar plano de estudos</button>
+
+    <div id="ia" class="ai"></div>
+</div>
+
+</section>
+
+</div>
+
+<script>
+
+function entrar() {
+    document.getElementById("loginPage").style.display = "none";
+    document.getElementById("app").style.display = "block";
+}
+
+/* ENTER FUNCIONAR */
+document.addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+        if (document.activeElement.id === "obj") {
+            gerar();
+        } else {
+            add();
+        }
+    }
+});
+
+// AGENDA
+function add() {
+    let t = document.getElementById("tarefa").value;
+    let d = document.getElementById("dia").value;
+    let h = document.getElementById("hora").value;
+
+    if (!t || !d || !h) {
+        alert("Preencha tudo!");
+        return;
+    }
+
+    let tabela = document.getElementById("agenda");
+    let row = tabela.insertRow();
+
+    row.insertCell(0).innerHTML = t;
+    row.insertCell(1).innerHTML = d;
+    row.insertCell(2).innerHTML = h;
+}
+
+// IA DE ESTUDOS (MELHORADA)
+function gerar() {
+    let obj = document.getElementById("obj").value.toLowerCase();
+
+    if (!obj) {
+        document.getElementById("ia").innerHTML = "Digite o que você quer aprender.";
+        return;
+    }
+
+    let plano = "";
+
+    if (obj.includes("program")) {
+        plano =
+        "📚 Plano de Estudos: Programação<br><br>" +
+        "✔ Lógica de programação<br>" +
+        "✔ HTML, CSS e JavaScript<br>" +
+        "✔ Estruturas de dados<br>" +
+        "✔ Projetos práticos<br>" +
+        "✔ Git e GitHub<br>" +
+        "✔ Frameworks (React, etc.)";
+    }
+
+    else if (obj.includes("ingl")) {
+        plano =
+        "📚 Plano de Estudos: Inglês<br><br>" +
+        "✔ Vocabulário básico diário<br>" +
+        "✔ Gramática essencial<br>" +
+        "✔ Escuta (filmes e músicas)<br>" +
+        "✔ Conversação prática<br>" +
+        "✔ Escrita simples";
+    }
+
+    else if (obj.includes("med")) {
+        plano =
+        "📚 Plano de Estudos: Medicina<br><br>" +
+        "✔ Biologia celular<br>" +
+        "✔ Anatomia básica<br>" +
+        "✔ Fisiologia humana<br>" +
+        "✔ Doenças comuns<br>" +
+        "✔ Estudos de caso";
+    }
+
+    else {
+        plano =
+        "📚 Plano de Estudos Personalizado<br><br>" +
+        "✔ Entender fundamentos do tema<br>" +
+        "✔ Estudo diário de 1-2h<br>" +
+        "✔ Prática constante<br>" +
+        "✔ Revisão semanal<br>" +
+        "✔ Projetos ou exercícios";
+    }
+
+    document.getElementById("ia").innerHTML = plano;
+}
+
+</script>
+
+</body>
+</html>
